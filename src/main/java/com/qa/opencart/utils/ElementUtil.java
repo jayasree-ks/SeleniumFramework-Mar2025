@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -28,6 +30,8 @@ public class ElementUtil {
 	private WebDriver driver;
 	private Actions act;
 	private JavaScriptUtil jsUtil;
+	
+	private static final Logger log = LogManager.getLogger(ElementUtil.class);
 
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
@@ -36,9 +40,12 @@ public class ElementUtil {
 	}
 
 	public void doSendKeys(By locator, String value) {
+		log.info("entering the value : "+ value + "into locator:" + locator);
 		if (value == null) {
+			log.error("Value:" +value+ "is null...");
 			throw new ElementException("===value can not be null====");
 		}
+		getElement(locator).clear();
 		getElement(locator).sendKeys(value);
 	}
 
